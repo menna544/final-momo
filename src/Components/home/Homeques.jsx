@@ -30,15 +30,16 @@ const Homeques = () => {
     <>
       {loading ? (
         <Loading />
-      ) : (
+      ) : (<>
+        <FontAwesomeIcon icon={faArrowLeft} className="arrow" onClick={back1} />
         <div className="page1">
-          <FontAwesomeIcon icon={faArrowLeft} className="arrow" onClick={back1} />
           <div className="page2">
             <img src={image} alt="Img" />
             <p>Hello my friend, to better use the application, answer three questions.</p>
             <button onClick={gotoques}>Next</button>
           </div>
         </div>
+        </>
       )}
     </>
   );
