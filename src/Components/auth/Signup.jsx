@@ -19,8 +19,7 @@ const Signup = () => {
     e.preventDefault();
     
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    
-    // Validation checks for email and password
+
     if (!email || !emailPattern.test(email)) {
       setEmailError('Enter a valid email address');
       return;
@@ -40,17 +39,18 @@ const Signup = () => {
       setConfirmPasswordError('');
     }
     
-    const existingUser = localStorage.getItem('user');
+    let users = JSON.parse(localStorage.getItem('users')) || [];
+    const existingUser = users.find(user => user.email === email);
+
     if (existingUser) {
-      const parsedUser = JSON.parse(existingUser);
-      if (parsedUser.email === email) {
-        setEmailError('An account with this email already exists');
-        return;
-      }
+      setEmailError('An account with this email already exists');
+      return;
     }
   
-    const user = { email, password };
-    localStorage.setItem('user', JSON.stringify(user));
+    const newUser = { email, password };
+    users.push(newUser);
+    localStorage.setItem('users', JSON.stringify(users));
+    localStorage.setItem('currentUser', JSON.stringify({ email }));
     navigate('/home', { state: { userEmail: email } });
   };
   
@@ -59,7 +59,6 @@ const Signup = () => {
   };
 
   const back = () => {
-    localStorage.removeItem('user');
     navigate('/startlog'); 
   };
 
