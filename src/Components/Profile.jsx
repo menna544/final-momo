@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import '../App.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useNavigate } from 'react-router-dom'; 
-import { faArrowLeft} from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import defaultProfileImage from '../Images/a25c646ac9c2510200931370b742b89d.jpg';
 
 function Profile() {
@@ -12,11 +12,12 @@ function Profile() {
   const navigate = useNavigate(); 
 
   useEffect(() => {
-    const storedUserData = JSON.parse(localStorage.getItem('userData')) || {};
-    setEmail(storedUserData.email || ''); // Initialize email state with localStorage value
-    setYear(storedUserData.year || '');
-    if (storedUserData.photo) {
-      const byteCharacters = atob(storedUserData.photo.split(',')[1]);
+    const storedCurrentUser = JSON.parse(localStorage.getItem('currentUser')) || {};
+
+    setEmail(storedCurrentUser.email || '');
+    setYear(storedCurrentUser.year || '');
+    if (storedCurrentUser.photo) {
+      const byteCharacters = atob(storedCurrentUser.photo.split(',')[1]);
       const byteNumbers = new Array(byteCharacters.length);
       for (let i = 0; i < byteCharacters.length; i++) {
         byteNumbers[i] = byteCharacters.charCodeAt(i);
@@ -30,8 +31,7 @@ function Profile() {
   }, []);
 
   const handleEmailChange = (e) => {
-   localStorage.getItem('user', JSON.stringify({ email }));
-    setEmail(e.target.value); 
+    setEmail(e.target.value);
   };
 
   const handleYearChange = (e) => {
@@ -44,20 +44,20 @@ function Profile() {
   
     const reader = new FileReader();
     reader.onload = (event) => {
-      const base64String = event.target.result;
-      localStorage.setItem('userData', JSON.stringify({ ...JSON.parse(localStorage.getItem('userData')), photo: base64String }));
+      const base64String = event.target.result.split(',')[1];
+      localStorage.setItem('currentUser', JSON.stringify({ ...JSON.parse(localStorage.getItem('currentUser')), photo: base64String }));
       console.log("Photo saved to local storage.");
     };
     reader.readAsDataURL(selectedPhoto);
   };
   
   const handleSave = () => {
-    localStorage.setItem('user', JSON.stringify({ email, year, photo }));
+    localStorage.setItem('currentUser', JSON.stringify({ email, year, photo: photo ? URL.createObjectURL(photo) : null }));
     console.log("Changes saved to local storage.");
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('user');
+    localStorage.removeItem('currentUser');
     navigate('/startlog');
   };
 
