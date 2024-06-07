@@ -41,10 +41,15 @@ body{
     transform: rotate(360deg);
   }
 }
+.page1{
+  display: flex;
+  flex-direction: column;
+}
 .page2 {
   display: flex;
+  flex-grow: 1;
+  margin-top: 70px;
   justify-content: center;
-  height: 95vh;
   align-items: center;
   flex-direction: column;
   }
@@ -140,6 +145,21 @@ body{
   
   .input-field {
     padding-right: 40px; 
+  }
+  .inputcontainer {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  
+  .inputfield {
+    width: 50px; 
+    padding: 5px;
+    text-align: center;
+  }
+  
+  .inputicon {
+    margin-left: 10px;
   }
   
   .inpu-icon {
@@ -315,6 +335,7 @@ body{
     width: 95%;
     height: 50px;
     bottom: 0;
+    margin-left: 10px;
     margin-bottom: 4px;
     position:fixed;
     padding: 0;
@@ -404,8 +425,8 @@ body{
     flex-wrap: wrap;
   }
   .loader {
-    --s: 25px; /* the size of the wave */
-    --b: 10px; /* the thickness of the line*/
+    --s: 25px;
+    --b: 10px; 
     height: calc(2*var(--s));
     aspect-ratio: 2.5;
     display: grid;
@@ -447,10 +468,13 @@ body{
   }
   .video-container {
     position: relative;
+    width: 100%;
     
-    bottom:0;
-    padding: 0;
     margin: auto; 
+  }
+  .ifr{
+    aspect-ratio: 315/312;
+    max-width: 600px;
   }
   .hhh {
     margin: auto;
