@@ -13,16 +13,13 @@ const Signin = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
 
   const handleSignIn = () => {
-    const storedUserData = JSON.parse(localStorage.getItem('user')) || {};
-    const storedEmail = storedUserData.email || '';
-    const storedPassword = storedUserData.password || '';
+    const users = JSON.parse(localStorage.getItem('users')) || [];
+    const foundUser = users.find(user => user.email.toLowerCase() === email.toLowerCase());
 
-    const trimmedEmail = email.trim();
-    const trimmedPassword = password.trim();
-
-    if (trimmedEmail.toLowerCase() === storedEmail.toLowerCase() && trimmedPassword === storedPassword) {
+    if (foundUser && foundUser.password === password) {
       setSignInError('');
-      navigate('/home', { state: { userEmail: trimmedEmail } }); 
+      localStorage.setItem('currentUser', JSON.stringify({ email: foundUser.email }));
+      navigate('/home', { state: { userEmail: foundUser.email } }); 
     } else {
       setSignInError('Incorrect email or password');
     }
