@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHouse, faLock } from "@fortawesome/free-solid-svg-icons";
+import { faHouse, faLock, faBook } from "@fortawesome/free-solid-svg-icons";
 import { faReadme } from "@fortawesome/free-brands-svg-icons";
 import { faBookOpen } from "@fortawesome/free-solid-svg-icons";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
@@ -110,7 +110,16 @@ const Home = () => {
                                 <h1>{unit.title}</h1>
                                 <p>{unit.description}</p>
                             </div>
-                            <FontAwesomeIcon icon={unit.id === 'unit1' || unit.id === 'unit2' ? faBookOpen : (paymentStatus === 'locked' ? faLock : faBookOpen)} className="icon1" />
+                            <FontAwesomeIcon 
+                                icon={
+                                    unit.id === 'unit1' || unit.id === 'unit2' 
+                                        ? faBookOpen 
+                                        : unit.id.startsWith('quiz') 
+                                            ? (paymentStatus === 'locked' ? faLock : faBook) 
+                                            : (paymentStatus === 'locked' ? faLock : faBookOpen)
+                                } 
+                                className="icon1" 
+                            />
                         </div>
                     ))}
                 </div>
