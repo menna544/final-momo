@@ -557,8 +557,8 @@ body{
     border-radius: 15px;
 }
 button:hover{
-  background-color: #81b691;
-  color: black;
+  background-color: #09032c;
+  color: #fff;
 }
   .buttons{
     display: flex;
