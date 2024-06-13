@@ -3,11 +3,12 @@ import '../App.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useNavigate } from 'react-router-dom'; 
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
-import defaultProfileImage from '../Images/a25c646ac9c2510200931370b742b89d.jpg';
+import ProfileImage from '../Images/a25c646ac9c2510200931370b742b89d.jpg';
 
 function Profile() {
   const [email, setEmail] = useState('');
   const [year, setYear] = useState('');
+  const [password, setPassword] = useState('');
   const [photo, setPhoto] = useState(null);
   const navigate = useNavigate(); 
 
@@ -16,6 +17,7 @@ function Profile() {
 
     setEmail(storedCurrentUser.email || '');
     setYear(storedCurrentUser.year || '');
+    setPassword(storedCurrentUser.year || '');
     if (storedCurrentUser.photo) {
       const byteCharacters = atob(storedCurrentUser.photo.split(',')[1]);
       const byteNumbers = new Array(byteCharacters.length);
@@ -37,6 +39,9 @@ function Profile() {
   const handleYearChange = (e) => {
     setYear(e.target.value);
   };
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value);
+  };
 
   const handlePhotoChange = (e) => {
     const selectedPhoto = e.target.files[0];
@@ -45,15 +50,38 @@ function Profile() {
     const reader = new FileReader();
     reader.onload = (event) => {
       const base64String = event.target.result.split(',')[1];
-      localStorage.setItem('currentUser', JSON.stringify({ ...JSON.parse(localStorage.getItem('currentUser')), photo: base64String }));
+      const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+      localStorage.setItem('currentUser', JSON.stringify({ ...currentUser, photo: base64String }));
       console.log("Photo saved to local storage.");
     };
     reader.readAsDataURL(selectedPhoto);
   };
-  
+
   const handleSave = () => {
-    localStorage.setItem('currentUser', JSON.stringify({ email, year, photo: photo ? URL.createObjectURL(photo) : null }));
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    const updatedUser = {
+      ...currentUser,
+      email,
+      year,
+      photo: photo ? URL.createObjectURL(photo) : currentUser.photo
+    };
+
+    updateUsersList(currentUser.email, updatedUser);
+    localStorage.setItem('currentUser', JSON.stringify(updatedUser));
     console.log("Changes saved to local storage.");
+  };
+
+  const updateUsersList = (oldEmail, updatedUser) => {
+    const users = JSON.parse(localStorage.getItem('users')) || [];
+    const userIndex = users.findIndex(user => user.email.toLowerCase() === oldEmail.toLowerCase());
+
+    if (userIndex !== -1) {
+      users[userIndex] = { ...users[userIndex], ...updatedUser };
+    } else {
+      users.push(updatedUser);
+    }
+
+    localStorage.setItem('users', JSON.stringify(users));
   };
 
   const handleLogout = () => {
@@ -86,7 +114,7 @@ function Profile() {
           />
           <div style={{ position: 'relative' }}>
             <img
-              src={photo ? URL.createObjectURL(photo) : defaultProfileImage}
+              src={photo ? URL.createObjectURL(photo) : ProfileImage}
               alt="Profile"
               onClick={handleImageClick}
               className='immmg'
@@ -103,6 +131,8 @@ function Profile() {
         <label>Edit Year:</label>
         <input type="text" value={year} onChange={handleYearChange} />
         
+        <label>Edit Password:</label>
+        <input type="text" value={password} onChange={handlePasswordChange} />
         <div className='buttons'>
           <button onClick={handleSave}>Save</button>
           <button onClick={handleLogout}>Log Out</button>
