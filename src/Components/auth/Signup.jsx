@@ -40,7 +40,7 @@ const Signup = () => {
     }
     
     let users = JSON.parse(localStorage.getItem('users')) || [];
-    const existingUser = users.find(user => user.email === email);
+    const existingUser = users.find(user => user.email === email && user.password === password);
 
     if (existingUser) {
       setEmailError('An account with this email already exists');
@@ -50,7 +50,7 @@ const Signup = () => {
     const newUser = { email, password };
     users.push(newUser);
     localStorage.setItem('users', JSON.stringify(users));
-    localStorage.setItem('currentUser', JSON.stringify({ email }));
+    localStorage.setItem('currentUser', JSON.stringify({ email: newUser.email, password: newUser.password }));
     navigate('/home', { state: { userEmail: email } });
   };
   
