@@ -14,17 +14,16 @@ const Signin = () => {
 
   const handleSignIn = () => {
     const users = JSON.parse(localStorage.getItem('users')) || [];
-    const foundUser = users.find(user => user.email.toLowerCase() === email.toLowerCase());
+    const foundUser = users.find(user => user.email.toLowerCase() === email.toLowerCase() && user.password === password);
 
-    if (foundUser && foundUser.password === password) {
+    if (foundUser) {
       setSignInError('');
-      localStorage.setItem('currentUser', JSON.stringify({ email: foundUser.email }));
+      localStorage.setItem('currentUser', JSON.stringify({ email: foundUser.email, password: foundUser.password }));
       navigate('/home', { state: { userEmail: foundUser.email } }); 
     } else {
       setSignInError('Incorrect email or password');
     }
   };
-
   const goToSignup = () => {
     navigate('/signup'); 
   };
