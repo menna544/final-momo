@@ -341,10 +341,9 @@ body{
     text-decoration: none;
   }
   .footer{
-    width: 95%;
+    width: 100%;
     height: 50px;
     bottom: 0;
-    margin-left: 10px;
     margin-bottom: 4px;
     position:fixed;
     padding: 0;
@@ -476,14 +475,12 @@ body{
     height: 78px;
   }
   .video-container {
-    position: relative;
-    width: 100%;
-    
+    position: relative;    
     margin: auto; 
   }
   .ifr{
     aspect-ratio: 315/312;
-    max-width: 600px;
+    width: 600px;
   }
   .hhh {
     margin: auto;

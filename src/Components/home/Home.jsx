@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHouse, faLock, faBook, faGamepad  } from "@fortawesome/free-solid-svg-icons";
+import { faHouse, faLock, faBook } from "@fortawesome/free-solid-svg-icons";
 import { faReadme } from "@fortawesome/free-brands-svg-icons";
 import { faBookOpen } from "@fortawesome/free-solid-svg-icons";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
@@ -66,10 +66,7 @@ const Home = () => {
     const navigateToProfile = () => {
         navigate('/profile'); 
     };
-    const navigateTogame = () => {
-        navigate('/game'); 
-    };
-
+  
     const units = [
         { id: 'unit1', title: 'Unit 1', path: '/unit/unit1', description: 'Alphabet Words🔠' },
         { id: 'unit2', title: 'Unit 2', path: '/unit/unit2', description: 'Conversations' },
@@ -99,7 +96,7 @@ const Home = () => {
             <div className="footer">
                 <FontAwesomeIcon icon={faHouse} className="icon2" onClick={setHomePage} />
                 <FontAwesomeIcon icon={faReadme} className="icon2" onClick={navigateToStories} />
-                <FontAwesomeIcon icon={ faGamepad } className="icon2" onClick={navigateTogame} />
+
                 <FontAwesomeIcon icon={faUser} className="icon2" onClick={navigateToProfile} />
              
             </div>
