@@ -25,7 +25,7 @@ function App() {
   const [userEmail, setUserEmail] = useState('');
  return (
     <div className="App">
-      <Router basename="/final-momo">
+      <Router>
         <Routes>
           <Route path="/home" element={<Home userEmail={userEmail} />} />
           <Route path="/stories" element={<Stories />} />
